@@ -1,12 +1,8 @@
 db.sqlite3
-manage.py
 venv
 media
 staticfiles
-assets
-*_app/migrations
 QuizApp/settings.ini
-requirements.txt
 
 ### OSX ###
 .DS_Store

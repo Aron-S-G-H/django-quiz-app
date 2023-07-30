@@ -10,8 +10,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
-
 
 class Quiz(View):
     def get(self, request):
