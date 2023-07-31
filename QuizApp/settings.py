@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'graphene_django',
     'rest_framework',
     'rest_framework.authtoken',
     'drf_spectacular',
@@ -121,4 +122,11 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'Your project description',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+}
+
+
+# GraphQL API configs
+GRAPHENE = {
+    "SCHEMA": "QuizApp.schema.schema",
+    "ATOMIC_MUTATIONS": True,
 }
