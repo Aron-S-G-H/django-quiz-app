@@ -98,6 +98,23 @@ class UpdateQuestion(graphene.Mutation):
             return UpdateQuestion(is_updated=is_updated)
 
 
+class DeleteQuestion(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID(required=True)
+
+    is_deleted = graphene.Boolean(default_value=False)
+
+    @classmethod
+    def mutate(cls, parent, info, id):
+        if not info.context.user.is_authenticated:
+            raise GraphQLError('you are not authenticated!')
+        question = Question.objects.get(id=id)
+        question.delete()
+        is_deleted = True
+        return DeleteQuestion(is_deleted=is_deleted)
+
+
 class Mutate(graphene.ObjectType):
     create_question = CreateQuestion.Field()
     update_question = UpdateQuestion.Field()
+    delete_question = DeleteQuestion.Field()
