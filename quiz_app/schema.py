@@ -17,6 +17,7 @@ class UserResultType(DjangoObjectType):
         exclude = ('id',)
 
 
+# a subclass of ObjectType representing the GraphQL queries related to questions
 class QuestionQuery(ObjectType):
     questions = graphene.List(QuestionType)
     question = graphene.Field(QuestionType, id=graphene.ID(required=True))
@@ -114,7 +115,8 @@ class DeleteQuestion(graphene.Mutation):
         return DeleteQuestion(is_deleted=is_deleted)
 
 
-class Mutate(graphene.ObjectType):
+# a subclass of graphene.ObjectType representing the GraphQL mutation operations
+class QuestionMutate(graphene.ObjectType):
     create_question = CreateQuestion.Field()
     update_question = UpdateQuestion.Field()
     delete_question = DeleteQuestion.Field()

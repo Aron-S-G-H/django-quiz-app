@@ -1,12 +1,13 @@
 import graphene
-from quiz_app.schema import QuestionQuery, UserResultQuery, Mutate
+from quiz_app.schema import QuestionQuery, UserResultQuery, QuestionMutate
+from account_app.schema import UserMutate
 
 
 class Query(UserResultQuery, QuestionQuery, graphene.ObjectType):
     pass
 
 
-class Mutation(Mutate, graphene.ObjectType):
+class Mutation(UserMutate, QuestionMutate, graphene.ObjectType):
     pass
 
 
