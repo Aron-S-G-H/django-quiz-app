@@ -2,7 +2,6 @@ db.sqlite3
 venv
 media
 staticfiles
-QuizApp/settings.ini
 
 ### OSX ###
 .DS_Store
