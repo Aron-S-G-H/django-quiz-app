@@ -1,5 +1,6 @@
 import graphene
-from graphql import GraphQLError
+import graphql_jwt
+from graphql_jwt.decorators import login_required, staff_member_required
 from graphene_django.types import DjangoObjectType, ObjectType
 from django.contrib.auth.models import User
 
@@ -24,11 +25,9 @@ class CreateUser(graphene.Mutation):
     user = graphene.Field(UserType)
 
     @staticmethod
+    @staff_member_required
+    @login_required
     def mutate(parent, info, inputs):
-        if not info.context.user.is_authenticated:
-            GraphQLError('you are not authenticated!')
-        elif not info.context.user.is_staff:
-            GraphQLError('you dont have permission!')
         user_instance = User.objects.create_user(username=inputs.username, email=inputs.email, password=inputs.password)
         is_created = True
         return CreateUser(is_created=is_created, user=user_instance)
@@ -36,3 +35,6 @@ class CreateUser(graphene.Mutation):
 
 class UserMutate(ObjectType):
     create_user = CreateUser.Field()
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()

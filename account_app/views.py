@@ -21,7 +21,7 @@ class Login(View):
             user = authenticate(username=cd['fullname'], password=cd['password'])
 
             if user is not None:
-                login(request, user)
+                login(request, user, backend="django.contrib.auth.backends.ModelBackend")
                 return redirect('quiz:quiz_page')
             else:
                 form.add_error('fullname', 'Invalid User Data')
@@ -54,7 +54,7 @@ class Register(View):
                     email=cd['email'],
                     password=cd['password'],)
 
-                login(request, user)
+                login(request, user, backend="django.contrib.auth.backends.ModelBackend")
                 return redirect('quiz:quiz_page')
         else:
             form.add_error('password', 'Invalid Data')
