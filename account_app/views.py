@@ -2,8 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.views.generic import View
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from quiz_app.permissions import IsStaff
 from .forms import LoginForm, RegisterForm
-from uuid import uuid4
+from .serializers import UserSerializer
 
 
 class Login(View):
@@ -60,3 +65,19 @@ class Register(View):
             form.add_error('password', 'Invalid Data')
 
         return render(request, 'account_app/register.html', {'form': form})
+
+
+# ----------------- API VIEWS--------------------
+
+
+class UserAddView(APIView):
+    permission_classes = [IsAuthenticated, IsStaff]
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"response": request.data}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
