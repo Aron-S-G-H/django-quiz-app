@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from .models import Question, UserResult
 from django.views.generic import View
-from django.core.mail import send_mail
-from django.conf import settings
+from .email_module import send_email_result
 from .serializers import QuestionsSerializer, ResultSerializer
 from .permissions import IsStaff
 from rest_framework.response import Response
@@ -72,19 +71,15 @@ def send_email(request):
             name = request.user.username
             user_result = UserResult.objects.get(fullname=name)
 
-            send_mail(
-                subject='Your Results',
-                message=f'''
-                Name: {user_result}
-                Total questions: {user_result.totall}
-                Your Score: {user_result.score}
-                Percent: {user_result.percent}%
-                Number of correct Questions: {user_result.correct}
-                Number of wrong Questions: {user_result.wrong}
-                Date: {user_result.created_at.date()}
-                ''',
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[request.user.email],
+            send_email_result.delay(
+                name=user_result.fullname,
+                total=user_result.totall,
+                score=user_result.score,
+                percent=user_result.percent,
+                correct=user_result.correct,
+                wrong=user_result.wrong,
+                created_at=user_result.created_at,
+                email=request.user.email,
             )
             return redirect('quiz:result_page')
         else:
