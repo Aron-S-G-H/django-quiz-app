@@ -46,24 +46,16 @@ class Register(View):
         form = RegisterForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-
-            if cd['password'] != cd['conf_pass']:
-                form.add_error('password', 'Passwords are not the same !!')
-            else:
-                fullname = f"{cd['first_name']} {cd['last_name']}"
-
-                user = User.objects.create_user(
-                    username=fullname,
-                    first_name=cd['first_name'],
-                    last_name=cd['last_name'],
-                    email=cd['email'],
-                    password=cd['password'],)
-
-                login(request, user, backend="django.contrib.auth.backends.ModelBackend")
-                return redirect('quiz:quiz_page')
-        else:
-            form.add_error('password', 'Invalid Data')
-
+            fullname = f"{cd['first_name']} {cd['last_name']}"
+            user = User.objects.create_user(
+                username=fullname,
+                first_name=cd['first_name'],
+                last_name=cd['last_name'],
+                email=cd['email'],
+                password=cd['password'],
+            )
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
+            return redirect('quiz:quiz_page')
         return render(request, 'account_app/register.html', {'form': form})
 
 

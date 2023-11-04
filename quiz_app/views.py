@@ -66,7 +66,7 @@ class Result(View):
 
 
 def send_email(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.method == 'GET':
         if UserResult.objects.filter(fullname=request.user.username).exists():
             name = request.user.username
             user_result = UserResult.objects.get(fullname=name)
