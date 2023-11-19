@@ -4,7 +4,8 @@ WORKDIR /source
 
 COPY requirements.txt /source/
 
-RUN pip install -U pip && pip install -r requirements.txt
+RUN pip install -U pip
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
