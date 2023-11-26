@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'includes/header.html' %}
+
+<body>
+<div class='box'>
+    <div class='wave -one'></div>
+    <div class='wave -two'></div>
+    <div class='wave -three'></div>
+</div>
+<!-- start Quiz button -->
+{% if flag %}
+    <div class="start_btn">
+        <button>شروع آزمون</button>
+    </div>
+{% else %}
+    <div class="start_btn">
+        <a class="restart" href="{% url 'quiz:result_page' %}?fullname={{ request.user.username }}">مشاهده نتیجه</a>
+    </div>
+{% endif %}
+
+<!-- Info Box -->
+<div class="info_box">
+    <div class="info-title"><span>قوانین آزمون</span></div>
+    <div class="info-list">
+        <div class="info">1. شما در کل برای هر سوال <span>10 ثانیه </span> زمان دارید .</div>
+        <div class="info">2. هر سوال 10 امتیاز داره .</div>
+        <div class="info">3. براساس انتخاب های صحیح شما امتیازتون برآورد میشه .</div>
+        <div class="info">4. وقتی زمان به پایان برسه دیگه امکان انتخاب کردن ندارید .</div>
+        <div class="info">5. زمانی که آزمون شروع شود امکان خارج شدن ندارید .</div>
+        <div class="info">6. سوال های نزده هم به عنوان غلط برآورد میشوند .</div>
+        <div class="info">6. هر کاربر فقط یکبار میتونه آزمون بده .</div>
+    </div>
+    <div class="buttons">
+        <button class="quit">خروج</button>
+        <button class="restart">ادامه</button>
+    </div>
+</div>
+
+<!-- Quiz Box -->
+<div class="quiz_box">
+    <header>
+        <div class="title">{{ request.user.username.capitalize }}</div>
+        <div class="timer">
+            <div class="time_left_txt">Time Left</div>
+            <div class="timer_sec"></div>
+        </div>
+    </header>
+    <section class="scroller">
+        <form method="post">
+            {% csrf_token %}
+            {% for q in questions %}
+                {% if q.status %}
+                    <div class="que_text">
+                        <span>{{ q.question }}</span>
+                    </div>
+                    <div class="option_list">
+                        <div class="option"><input type="radio" name="{{ q.question }}" id="radios"
+                                                   value="option1">{{ q.option1 }}</div>
+                        <div class="option"><input type="radio" name="{{ q.question }}" id="radios"
+                                                   value="option2">{{ q.option2 }}</div>
+                        <div class="option"><input type="radio" name="{{ q.question }}" id="radios"
+                                                   value="option3">{{ q.option3 }}</div>
+                        <div class="option"><input type="radio" name="{{ q.question }}" id="radios"
+                                                   value="option4">{{ q.option4 }}</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <!-- footer of Quiz Box -->
+            <footer>
+                <div class="total_que">
+                </div>
+                <button class="next_btn show" type="submit">پایان آزمون</button>
+            </footer>
+        </form>
+    </section>
+</div>
+
+<!-- Inside this JavaScript file I've coded all Quiz Codes -->
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
