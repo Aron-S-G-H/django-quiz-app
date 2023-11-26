@@ -23,12 +23,12 @@ Simple dummy project with Django , Django Rest framework , JS and GraphQ
 - Celery & Flower(for monitoring celery)
 - Dockerized
 
-### Documentation
+## Documentation
 - localhost/swagger (Rest API)
 - localhost/graphql (GraphQL API)
 - localhost:5555 (Celery)
 
-### Usage
+## Usage
 ```bash
 git clone https://github.com/Aron-S-G-H/quizApp.git
 pip install -r requirements.txt
@@ -40,12 +40,12 @@ celery -A QuizApp worker -l info
 # again in another terminal, enter the following command to run flower
 celery -A QuizApp flower
 ```
-### Run with Docker
+## Run with Docker
 make sure that you have docker and docker compose
 ```bash
 git clone https://github.com/Aron-S-G-H/quizApp.git
 cd QuizApp (where docker-compose.yaml is)
-# open a terminal in directory
+# open a terminal
 docker compose up -d
 # now go to the localhost:80
 ```
