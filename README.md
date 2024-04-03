@@ -1,5 +1,5 @@
 # Quiz App
-Simple dummy project with Django , Django Rest framework , JS and GraphQ
+Simple dummy project with Django, Django Rest framework, JS and GraphQL
 ## Features
 - Authentication
   - Login
